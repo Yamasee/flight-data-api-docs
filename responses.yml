@@ -1,0 +1,75 @@
+NotFound:
+    description: Requested resource not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/Error'
+
+UserNotFound:
+    description: Requested resource not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/Error'
+
+InvalidRefreshToken:
+    description: The refresh token is not authorized or invalid
+    content:
+      application/json:
+        schema:
+          $ref: '#/Error'
+
+Unauthorized:
+    description: Api-key or supplied jwt token wrong / expired or user doesn't have permissions to login
+    content:
+      application/json:
+        schema:
+          $ref: '#/Error'
+
+WrongPassword:
+    description: User password incorrect 
+    content:
+      application/json:
+        schema:
+          $ref: '#/Error'
+
+
+UnauthorizedSettings:
+    description: User unauthorized to see settings
+    content:
+      application/json:
+        schema:
+          $ref: '#/Error'
+
+UnauthorizedAlreadyInit:
+    description: User is not a fresh user so can't write to it's profile without auth
+    content:
+      application/json:
+        schema:
+          $ref: '#/Error'
+
+InternalServerError:
+    description: Internal server error, see message and code for more info
+    content:
+      application/json:
+        schema:
+          $ref: '#/Error'
+
+PartialUpdate:
+    description: Some of the update was successful some not see code and message for more details
+    content:
+      application/json:
+        schema:
+          $ref: '#/Error'
+
+
+Error:
+  type: object
+  required:
+    - message
+  properties:
+    code:
+      type: integer
+      format: int32
+    message:
+      type: string

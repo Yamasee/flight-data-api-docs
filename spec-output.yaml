@@ -1,0 +1,260 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Yamasee Skypath - Turbulence and Weather Management in Commercial
+    Aviation - Arnic API documentation
+  description: >
+    Skypath by Yamasee Inc is a unique service that can help airline pilots
+    avoid clear air 
+
+    turbulence. This is the API documentation for interacting with the Skypath server 
+
+    for application developers. It describes the Skypath turbulence avoidance server 
+
+    Rest API in OpenAPI 3.0 specification.
+
+    You will need a partner API_KEY to be able to login to the system and get authentication 
+
+    tokens valid for the different REST operations
+  termsOfService: https://yamasee.global/terms/
+  contact:
+    name: Skypath API Team
+    email: info@yamasee.global
+    url: https://api.skypath.app
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  x-logo:
+    url: https://api.skypath.app/skypath-logo.png
+    backgroundColor: "#FFFFFF"
+    altText: Skypath logo
+servers:
+  - url: https://devserver.yamasee-skypath.com
+    description: Development Server
+  - url: https://server.yamasee-skypath.com
+    description: Production Server
+paths:
+  /flight:
+    get:
+      operationId: get_flight_data
+      description: Get flight plan
+      security:
+        - BearerToken: []
+      parameters:
+        - $ref: "#/components/parameters/flightPlanId"
+        - $ref: "#/components/parameters/airlineId"
+        - $ref: "#/components/parameters/flightId"
+        - $ref: "#/components/parameters/departureAirport"
+        - $ref: "#/components/parameters/arrivalAirport"
+      responses:
+        "200":
+          description: The flight data, filtered using requested filter
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    description: The database line identifier
+                    type: number
+                    example: 1
+                  flight_plan_id:
+                    description: Flight plan id
+                    type: string
+                    example: GRT1
+                  updated_at:
+                    description: The last time this plan was updated
+                    type: string
+                    example: 2020-07-23 15:16:50.778
+                  airline_id:
+                    description: The airline ID
+                    type: string
+                    example: UAL
+                  flight_id:
+                    description: The flight ID
+                    type: string
+                    example: 415
+                  departure_airport:
+                    description: The name of the airport which the flight departs from
+                    type: string
+                    example: IHA
+                  arrival_airport:
+                    description: The name of the airport to which the flight arrives
+                    type: string
+                    example: EWR
+                  fuel_weight:
+                    description: The weight of the fuel on the plane
+                    type: number
+                    example: 24362
+                  fuel_unit:
+                    description: The fuel_weight unit
+                    type: string
+                    example: lbs
+                  fuel_duration:
+                    description: For how long the plane can flight with this amount of fuel
+                    type: string
+                    example: PT03H44M00.000S
+                  reserve_fuel:
+                    description: The weight of the reserve fuel on the plane
+                    type: number
+                    example: 5783
+                  reserve_fuel_unit:
+                    description: The reserve_fuel unit
+                    type: string
+                    example: lbs
+                  scheduled_departure:
+                    description: The scheduled departure time
+                    type: string
+                    example: 2020-07-23 17:14:00
+                  scheduled_arrival:
+                    description: The scheduled arrival time
+                    type: string
+                    example: 2020-07-23 20:21:00
+        "401":
+          description: Api-key or supplied jwt token wrong / expired or user doesn't have
+            permissions to login
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  message:
+                    type: string
+  /crew:
+    get:
+      operationId: get_crew
+      description: Get the crew information
+      security:
+        - BearerToken: []
+      parameters:
+        - $ref: "#/components/parameters/flightPlanId"
+      responses:
+        "200":
+          description: The crew data, filtered by flight plan id (if used)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    description: The database line identifier
+                    type: number
+                    example: 1
+                  flight_plan_id:
+                    description: Flight plan id
+                    type: string
+                    example: GRT1
+                  crew_id:
+                    description: The crew identifier
+                    type: string
+                    example: janw83hr3ikjn5f78
+                  crew_function:
+                    description: The crew member function on the plane for this flight plan
+                    type: string
+                    example: SU
+        "401":
+          $ref: "#/paths/~1flight/get/responses/401"
+  /waypoint:
+    get:
+      operationId: get_waypoints
+      description: Get the waypoints data of a specific flight plan
+      security:
+        - BearerToken: []
+      parameters:
+        - $ref: "#/components/parameters/flightPlanId"
+        - in: query
+          name: waypoint_id
+          description: The waypoint ID
+          schema:
+            type: string
+        - in: query
+          name: name
+          description: The waypoint name
+          schema:
+            type: string
+        - in: query
+          name: estimated_altitude
+          description: The waypoint estimated altitude
+          schema:
+            type: number
+      responses:
+        "200":
+          description: The crew data, filtered by flight plan id (if used)
+          content:
+            application/json:
+              schema:
+                $ref: "#/paths/~1crew/get/responses/200/content/application~1json/schema"
+        "400":
+          description: Either `flight_plan_id`, `waypoint_id` or `name` are required
+        "401":
+          $ref: "#/paths/~1flight/get/responses/401"
+  /flight-data:
+    post:
+      operationId: post_flight_data
+      description: Push new or update existing flight plan data
+      security:
+        - PartnerToken: []
+      requestBody:
+        description: Flight plan body, in JSON format
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        "200":
+          description: OK - The data inserted succesfuly
+          content:
+            application/json:
+              schema:
+                type: string
+        "401":
+          $ref: "#/paths/~1flight/get/responses/401"
+        "403":
+          description: Unknown data format
+components:
+  parameters:
+    flightPlanId:
+      in: query
+      name: flight_plan_id
+      description: The flight plan ID
+      schema:
+        type: string
+    airlineId:
+      in: query
+      name: airline_id
+      description: The airline ID
+      schema:
+        type: string
+    flightId:
+      in: query
+      name: flight_id
+      description: The flight ID
+      schema:
+        type: string
+    departureAirport:
+      in: query
+      name: departure_airport
+      description: The departure airport
+      schema:
+        type: string
+    arrivalAirport:
+      in: query
+      name: arrival_airport
+      description: The arrival airport
+      schema:
+        type: string
+  securitySchemes:
+    BearerToken:
+      type: http
+      scheme: bearer
+      description: JWT non expired token recived in response to a successful login request
+    PartnerToken:
+      type: apiKey
+      in: header
+      name: x-api-key

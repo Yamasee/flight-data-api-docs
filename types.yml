@@ -1,0 +1,115 @@
+FlightData:
+  type: object
+  properties:
+    id:
+      description: The database line identifier
+      type: number
+      example: 1
+    flight_plan_id:
+      description: Flight plan id
+      type: string
+      example: GRT1
+    updated_at:
+      description: The last time this plan was updated
+      type: string
+      example: "2020-07-23 15:16:50.778"
+    airline_id:
+      description: The airline ID
+      type: string
+      example: UAL
+    flight_id:
+      description: The flight ID
+      type: string
+      example: 0415
+    departure_airport:
+      description: The name of the airport which the flight departs from
+      type: string
+      example: IHA
+    arrival_airport:
+      description: The name of the airport to which the flight arrives
+      type: string
+      example: EWR
+    fuel_weight:
+      description: The weight of the fuel on the plane
+      type: number
+      example: 24362
+    fuel_unit:
+      description: The fuel_weight unit
+      type: string
+      example: lbs
+    fuel_duration:
+      description: For how long the plane can flight with this amount of fuel
+      type: string
+      example: PT03H44M00.000S
+    reserve_fuel:
+      description: The weight of the reserve fuel on the plane
+      type: number
+      example: 5783
+    reserve_fuel_unit:
+      description: The reserve_fuel unit
+      type: string
+      example: lbs
+    scheduled_departure:
+      description: The scheduled departure time
+      type: string
+      example: 2020-07-23 17:14:00
+    scheduled_arrival:
+      description: The scheduled arrival time
+      type: string
+      example: 2020-07-23 20:21:00
+
+Crew:
+  type: object
+  properties:
+    id:
+      description: The database line identifier
+      type: number
+      example: 1
+    flight_plan_id:
+      description: Flight plan id
+      type: string
+      example: GRT1
+    crew_id:
+      description: The crew identifier
+      type: string
+      example: janw83hr3ikjn5f78
+    crew_function:
+      description: The crew member function on the plane for this flight plan
+      type: string
+      example: SU
+
+Waypoint:
+  type: object
+  properties:
+    id:
+      description: The database line identifier
+      type: number
+      example: 1
+    flight_plan_id:
+      description: Flight plan id
+      type: string
+      example: GRT1
+    waypoint_id:
+      description: The waypoint identifier
+      type: string
+      example: JWIK
+    name:
+      description: The waypoint name
+      type: string
+      example: JWIK
+    latitude:
+      description: The latitude part of the position of this waypoint
+      type: string
+      example: 29.9717
+    longitude:
+      description: The longitude part of the position of this waypoint
+      type: string
+      example: -92.9143
+    estimated_altitude:
+      description: The estimated altitude of this waypoint
+      type: number
+      example: 1200
+    order:
+      description: The position of this waypoint in relation to other waypoints of the same flight plan
+      type: number
+      example: 3
