@@ -113,3 +113,41 @@ Waypoint:
       description: The position of this waypoint in relation to other waypoints of the same flight plan
       type: number
       example: 3
+RouteWaypoint:
+  type: object
+  properties:
+    id:
+      description: The database line identifier
+      type: number
+      example: 1
+    waypoint_id:
+      description: The waypoint identifier
+      type: string
+      example: JWIK
+    name:
+      description: The waypoint name
+      type: string
+      example: JWIK
+    latitude:
+      description: The latitude part of the position of this waypoint
+      type: string
+      example: 29.9717
+    longitude:
+      description: The longitude part of the position of this waypoint
+      type: string
+      example: -92.9143
+    order:
+      description: The position of this waypoint in relation to other waypoints of the same flight plan
+      type: number
+      example: 3
+PathQueryElement:
+  type: object
+  properties:
+    name:
+      description: String value in copy&paste query
+      type: string
+      example: KLAXR24L
+    processed:
+      description: If true value was found in db and processed
+      type: boolean
+      example: true

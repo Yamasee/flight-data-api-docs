@@ -128,7 +128,38 @@ paths:
           description: Unknown data format
         401:
           $ref: 'responses.yml#/Unauthorized'
-
+  /route-waypoints:
+    get:
+      operationId: get_route_waypoints
+      description: Get the waypoints data from query string
+      security:
+        - BearerToken: []
+      parameters:
+        - in: query
+          name: route
+          description: Route string (space separated waypoint names)
+          schema:
+            type: string
+      responses:
+        200:
+          description: Waypoints data 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  waypoints:
+                    type: array
+                    items:
+                      $ref: 'types.yml#/RouteWaypoint'
+                  pathQuery:
+                    type: array
+                    items:
+                      $ref: 'types.yml#/PathQueryElement'
+        400:
+          description: route parameter is required
+        401:
+          $ref: 'responses.yml#/Unauthorized'
 components:
   parameters:
     flightPlanId:
