@@ -57,6 +57,10 @@ FlightData:
       description: The scheduled arrival time
       type: string
       example: 2020-07-23 20:21:00
+    waypoints: 
+      type: array
+      items:
+        $ref: 'types.yml#/Waypoint'
 
 Crew:
   type: object
