@@ -31,7 +31,7 @@ servers:
 paths:
   /flight:
     get:
-      operationId: get_flight_data
+      operationId: flight
       description: Get flight plan
       security:
         - BearerToken: []
@@ -53,7 +53,7 @@ paths:
 
   /crew:
     get:
-      operationId: get_crew
+      operationId: crew
       description: Get the crew information
       security:
         - BearerToken: []
@@ -71,7 +71,7 @@ paths:
   
   /waypoint:
     get:
-      operationId: get_waypoints
+      operationId: waypoint
       description: Get the waypoints data of a specific flight plan
       security:
         - BearerToken: []
@@ -106,7 +106,7 @@ paths:
 
   /flight-data:
     post:
-      operationId: post_flight_data
+      operationId: flight-data
       description: Push new or update existing flight plan data
       security:
         - PartnerToken: []
@@ -130,7 +130,7 @@ paths:
           $ref: 'responses.yml#/Unauthorized'
   /route-waypoints:
     get:
-      operationId: get_route_waypoints
+      operationId: route-waypoints
       description: Get the waypoints data from query string
       security:
         - BearerToken: []
