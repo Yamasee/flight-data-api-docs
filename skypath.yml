@@ -160,6 +160,82 @@ paths:
           description: route parameter is required
         401:
           $ref: 'responses.yml#/Unauthorized'
+  /v2/flight/flight-plan/import:
+    post:
+      summary: import flight plan
+      operationId: importflightplan
+      parameters:
+      - name: x-api-key
+        in: header
+        description: ''
+        required: true
+        style: simple
+        schema:
+          type: string
+          example: API KEY
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  format: binary
+          application/json:
+            encoding: {}
+            schema:
+              type: object
+          application/xml:
+            encoding: {}
+            schema:
+              type: object
+        required: false
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: http://data-api-dev.yamasee-skypath.com
+        variables: {}
+  /v2/raw-data/edr/import:
+    post:
+      summary: import edr
+      operationId: importedr
+      parameters:
+      - name: x-api-key
+        in: header
+        description: ''
+        required: true
+        style: simple
+        schema:
+          type: string
+          example: API KEY
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  format: binary
+          application/json:
+            encoding: {}
+            schema:
+              type: object
+          application/xml:
+            encoding: {}
+            schema:
+              type: object
+        required: false
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      servers:
+      - url: http://data-api-dev.yamasee-skypath.com
+        variables: {}
 components:
   parameters:
     flightPlanId:
